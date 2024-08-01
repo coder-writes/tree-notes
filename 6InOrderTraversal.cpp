@@ -32,8 +32,8 @@ int main()
     root->left = new Node(5);
     root->right = new Node(7);
     root->right->left = new Node(9);
-    root->right->left->left = new Node(2);
     root->right->left->right = new Node(3);
+    root->right->left->left = new Node(2);
     root->right->right = new Node(1);
     root->right->left->right->left = new Node(1);
     root->right->left->right->right = new Node(4);
