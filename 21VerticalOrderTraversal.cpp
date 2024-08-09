@@ -14,20 +14,6 @@ struct TreeNode
     }
     
 };
-int diameter = 0;
-int calculateHeight(TreeNode* root){
-
-    if(root==NULL){
-        return 0;
-    }
-
-    int lh = calculateHeight(root->left);
-    int rh = calculateHeight(root->right);
-
-    diameter = max(diameter,lh + rh);
-
-    return 1 + max(lh,rh);
-}
 
 int main(){
     struct TreeNode*  root = new TreeNode(2);

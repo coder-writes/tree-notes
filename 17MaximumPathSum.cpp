@@ -1,5 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
+
+//To find the diameter of a binary tree, we can think of every node as a potential `Curving Point` of the path along which we find the sum. The maximum sum of a path through a turning point (like a curve) can be found by adding the maximum sum achievable in the left subtree, the right subtree, and the value of the turning point.
+
 struct TreeNode
 {
     int data;
@@ -14,20 +17,22 @@ struct TreeNode
     }
     
 };
-int diameter = 0;
-int calculateHeight(TreeNode* root){
 
+int maxi = INT_MIN;
+
+int findMaxPath(TreeNode* root,int maxi){
     if(root==NULL){
         return 0;
     }
 
-    int lh = calculateHeight(root->left);
-    int rh = calculateHeight(root->right);
+    int leftMaxPath = max(0,findMaxPath(root->left,maxi));
+    int rightMaxPath = max(0,findMaxPath(root->right,maxi));
 
-    diameter = max(diameter,lh + rh);
+    maxi = max(maxi,leftMaxPath+rightMaxPath + root->data);
 
-    return 1 + max(lh,rh);
+    return max(leftMaxPath,rightMaxPath) + root->data;
 }
+
 
 int main(){
     struct TreeNode*  root = new TreeNode(2);

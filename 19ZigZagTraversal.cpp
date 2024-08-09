@@ -14,54 +14,42 @@ struct TreeNode
     }
     
 };
-vector<vector<int>> levelOrderTraversalUsingQueue(TreeNode* root){
-    queue<TreeNode*> q;
+vector<vector<int>> zigZagTraversal(TreeNode* root){
     vector<vector<int>> result;
-    if(root==NULL) return result;
+
+    if(root==NULL){
+        return result;
+    }
+
+    queue<TreeNode*>q;
+    bool leftToRight = true;
     q.push(root);
     while(!q.empty()){
-        vector<int> level;
-        int size = q.size();
+        int size = q.size(); 
+        vector<int> temp(size);
 
         for(int i=0;i<size;i++){
             TreeNode* node = q.front();
             q.pop();
+            
+
+            //this is the only change in the level Order Traversal and zig Zag order Traversal
+
+            int index = leftToRight ? i : (size-i-1);
+
+            temp[index] = node->data;
+
             if(node->left) q.push(node->left);
             if(node->right) q.push(node->right);
 
-            level.push_back(node->data);
 
         }
-        result.push_back(level);
+        leftToRight = !leftToRight;
+        result.push_back(temp);
     }
     return result;
 }
-vector<int> iterativeInOrderTraversalUsingStack(TreeNode* root){
-    vector<int> ans;
-    if(root==NULL) return ans;
-    stack<TreeNode*> st;
-    TreeNode* node = root;
-    while(true){
-        if(node!=NULL){
-            st.push(node);
-            node = node->left;
-        }
-        else{
-            if(st.empty()) break;
-            node = st.top();
-            st.pop();
-            ans.push_back(node->data);
-            node = node->right;
-        }
-    }
-    return ans;
-}
-
-
-
-
 int main(){
-
     struct TreeNode*  root = new TreeNode(2);
     root->left = new TreeNode(5);
     root->left->left = new TreeNode(4);
@@ -77,16 +65,14 @@ int main(){
     root->right->right = new TreeNode(7);
 
 
-    vector<vector<int>> res = levelOrderTraversalUsingQueue(root);
-
-    for(auto &val: res){
-        for(auto &it: val){
-            cout<<it<<" ";
+    cout<<zigZagTraversal(root).size()<<endl;
+    for(auto &val: zigZagTraversal(root)){
+        for(auto &ele : val){
+            cout<<ele<<" ";
         }
         cout<<endl;
     }
+    
 
-    for(auto val: iterativeInOrderTraversalUsingStack(root)){
-        cout<<val<<" ";
-    }
+
 }

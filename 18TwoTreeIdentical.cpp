@@ -14,19 +14,14 @@ struct TreeNode
     }
     
 };
-int diameter = 0;
-int calculateHeight(TreeNode* root){
 
-    if(root==NULL){
-        return 0;
+bool equalTree(TreeNode* p,TreeNode* q){
+    if(p==NULL || q==NULL){
+        return (p==q);
     }
 
-    int lh = calculateHeight(root->left);
-    int rh = calculateHeight(root->right);
 
-    diameter = max(diameter,lh + rh);
-
-    return 1 + max(lh,rh);
+    return (p->data==q->data)&&(equalTree(p->left,q->left))&&(equalTree(p->right,q->right));
 }
 
 int main(){

@@ -14,19 +14,31 @@ struct TreeNode
     }
     
 };
-int diameter = 0;
-int calculateHeight(TreeNode* root){
 
-    if(root==NULL){
-        return 0;
+vector<int> bottomTraversal(TreeNode* root){
+    map<int,int> mp;
+    queue<pair<TreeNode*,int>> q;
+    vector<int> arr;
+    q.push({root,0});
+    while(!q.empty()){
+        auto p = q.front();
+        q.pop();
+        TreeNode* node = p.first;
+        int level = p.second;
+
+        mp[level] = node->data;
+
+        if(node->left){
+            q.push({node->left,level-1});
+        }
+        if(node->right){
+            q.push({node->right,level+1});
+        }
     }
-
-    int lh = calculateHeight(root->left);
-    int rh = calculateHeight(root->right);
-
-    diameter = max(diameter,lh + rh);
-
-    return 1 + max(lh,rh);
+    for(auto &val: mp){
+        arr.push_back(val.second);
+    }
+    return arr;
 }
 
 int main(){
@@ -44,6 +56,9 @@ int main(){
     root->right->left->left = new TreeNode(3);
     root->right->right = new TreeNode(7);
     
+    for(auto &val: bottomTraversal(root)){
+        cout<<val<<" ";
+    }
 
 
 }

@@ -14,20 +14,41 @@ struct TreeNode
     }
     
 };
-int diameter = 0;
-int calculateHeight(TreeNode* root){
-
+void inOrderTraversal(TreeNode* root){
     if(root==NULL){
-        return 0;
+        return ;
     }
 
-    int lh = calculateHeight(root->left);
-    int rh = calculateHeight(root->right);
-
-    diameter = max(diameter,lh + rh);
-
-    return 1 + max(lh,rh);
+    cout<<root->data<<" ";
+    inOrderTraversal(root->left);
+    inOrderTraversal(root->right);
 }
+
+TreeNode* helper(vector<int> &arr,int left,int right)
+{
+    if(left>right) return nullptr;
+
+    int mid = left + (right - left)/2;
+
+    TreeNode* root = new TreeNode(arr[mid]);
+    root->left = helper(arr,left,mid-1);
+    root->right = helper(arr,mid+1,right);
+
+    return root;
+
+}
+
+TreeNode* convertArr2BST(vector<int> &nums){
+    int n = nums.size();
+    if(n==0){
+        return nullptr;
+    }
+
+    TreeNode* root = helper(nums,0,n-1);
+    return root;
+}
+
+
 
 int main(){
     struct TreeNode*  root = new TreeNode(2);
@@ -44,6 +65,8 @@ int main(){
     root->right->left->left = new TreeNode(3);
     root->right->right = new TreeNode(7);
     
-
+    vector<int> arr = {1,2,4,5,7,3,2,9};
+    TreeNode* root1 = convertArr2BST(arr);
+    inOrderTraversal(root1);
 
 }
